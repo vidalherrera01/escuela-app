@@ -1,0 +1,101 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Facturas</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+
+    <ion-card *ngFor="let item of dataUser.arr_students; let i = index">
+      <ion-card-header>
+        <ion-card-title>Nombre: {{item.name}}</ion-card-title>
+        <ion-card-subtitle> </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <div class="text-center m-top" *ngIf="item.invoices.length > 0">
+          <ion-grid>
+            <ion-row class="div-center">
+              <ion-col size="6">
+                <h3><strong>cursos</strong></h3>
+              </ion-col>
+              <ion-col size="6"><strong>Vouchers</strong></ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <ion-grid *ngFor="let inv of item.invoices; let i = index">
+            <ion-row class="div-center" *ngIf="inv.payment_state == 'not_paid'">
+              <ion-col size="6">
+                <ion-label color="dark">{{inv.payment_reference}} {{inv.id}}</ion-label>
+                <p>{{inv.internal_custom_ref}}</p>
+              </ion-col>
+              <ion-col size="6">
+                <ion-button *ngIf="!ft_verify_idVoucher(inv.id)" (click)="ft_photoVouchers(inv.id, item )">Subir
+                  Foto
+                </ion-button>
+                <ion-button color="success" *ngIf="ft_verify_idVoucher(inv.id)"
+                  (click)="ft_photoVouchers( inv.id, item)">
+                  Enviado
+                </ion-button>
+                <ion-button (click)="ft_seeVoucher(inv.id, inv.download_url)">
+                  Ver
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+
+        <!-- <ion-grid class="text-center m-top" *ngIf="item.products.length > 0">
+          <ion-row class="div-center">
+            <ion-col size="6">
+              <h3><strong>Productos</strong></h3>
+            </ion-col>
+            <ion-col size="6"><strong>Vouchers</strong></ion-col>
+          </ion-row>
+
+          <ion-row class="div-center" *ngFor="let prod of item.products; let i = index">
+            <ion-col size="6">{{prod.name}}</ion-col>
+            <ion-col size="6">
+              <ion-button (click)="ft_addVouchers(item)">Subir</ion-button>
+              <ion-button (click)="ft_seeVoucher()">Ver</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid> -->
+
+        <ion-label color="primary" class="text-center" *ngIf="item.invoices == 0">
+          <h4>Aun No Tienes Facturas...</h4>
+        </ion-label>
+
+      </ion-card-content>
+    </ion-card>
+
+    <ion-modal [isOpen]="isModalOpen">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Vouchers</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="setOpen(false)">Close</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+
+          <p>
+            <a [href]="url_invoices">Descargar Factura</a>
+          </p>
+
+          <ion-img [src]="file_watchVoucher" alt="No Disponible"></ion-img>
+
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+
+  </ion-list>
+
+</ion-content>
+
+<app-footer />

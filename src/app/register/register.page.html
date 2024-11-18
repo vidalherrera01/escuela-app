@@ -1,0 +1,83 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Registrar Estudiante</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="bgg">
+
+    <ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="8">
+            <p>Profile</p>
+            <ion-button (click)="ft_photo_profile()">Foto</ion-button>
+          </ion-col>
+          <ion-col size="4">
+            <div *ngIf="profile">
+              <img width="100" height="130" [src]="profilePhoto" alt="profile">
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+
+    <!-- <ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="8">
+            <p>Signature</p>
+            <ion-button (click)="ft_photo_signature()">Foto</ion-button>
+          </ion-col>
+          <ion-col size="4">
+            <div *ngIf="signature">
+              <img width="100" height="130" [src]="signaturePhoto" alt="profile">
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item> -->
+
+    <ion-item>
+      <ion-input label="Nombre" labelPlacement="floating" type="text" [(ngModel)]="name_student" placeholder="Nombre"
+        required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Fecha de nacimiento" labelPlacement="floating" type="date" [(ngModel)]="date_student"
+        name="date" placeholder="Fecha" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Nombre de la madre" labelPlacement="floating" [(ngModel)]="mother"
+        placeholder="Nombre de la madre@Email" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Nombre de la padre" labelPlacement="floating" [(ngModel)]="father"
+        placeholder="Nombre de la padre" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Telefono" labelPlacement="floating" type="tel" inputmode="numeric" [(ngModel)]="tel"
+        placeholder="000-000-0000" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Mobil" labelPlacement="floating" type="tel" inputmode="numeric" [(ngModel)]="phone"
+        placeholder="000-000-0000" required></ion-input>
+    </ion-item>
+
+    <div class="text-center mv">
+      <ion-button (click)="ft_register()">
+        Agregar Estudiante
+      </ion-button>
+    </div>
+
+  </div>
+</ion-content>
+
+<div *ngIf="dataUser.arr_students.length > 0">
+  <app-footer />
+</div>
