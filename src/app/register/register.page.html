@@ -5,8 +5,8 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="bgg h80">
-    <div class="">
+  <div class="bgg">
+    <div>
 
       <div>
         <h3>Nombre y foto del estudiante</h3>
@@ -20,9 +20,9 @@
       <div style="width: 100%;" class="div-center">
         <div>
           <div class="img mv" *ngIf="profile">
-            <img style="margin: auto;" width="150" height="200" [src]="profilePhoto" alt="profile">
+            <img style="margin: auto;" width="160" height="200" [src]="profilePhoto" alt="profile">
           </div>
-          <ion-button color="success" (click)="ft_photo_profile()">Tomar Foto</ion-button>
+          <ion-button class="mt" color="secondary" (click)="ft_photo_profile()">Tomar Foto</ion-button>
         </div>
       </div>
 
@@ -109,7 +109,9 @@
       </div>
 
     </div>
+    <div style="height: 200px;"></div>
   </div>
+
 </ion-content>
 
 <div *ngIf="dataUser.arr_students.length > 0">

@@ -67,7 +67,7 @@ export class RegisterPage implements OnInit {
     if (
       this.name_student.trim() == ""
     ) {
-      return alert("hay campos vacios")
+      return alert("Hay campos vacios, favor llenar")
     }
 
     let urlRegister: string = `https://kabaygroup.com/api/school/parent/${this.dataUser.id_partner}/student`
