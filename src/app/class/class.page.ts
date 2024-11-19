@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonToolbar, IonSelect, IonSelectOption, IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol, IonText, IonAvatar, IonModal, IonTitle, IonButtons, IonItem } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonToolbar, IonSelect, IonSelectOption, IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol, IonText, IonAvatar, IonModal, IonTitle, IonButtons, IonItem, Platform, IonSpinner } from '@ionic/angular/standalone';
 import { DataUserService } from '../services/data-user.service';
 import { Router, RouterModule } from '@angular/router';
 import { FooterComponent } from "../components/footer/footer.component";
@@ -11,13 +11,12 @@ import { FooterComponent } from "../components/footer/footer.component";
   templateUrl: './class.page.html',
   styleUrls: ['./class.page.scss'],
   standalone: true,
-  imports: [IonItem, IonButtons, IonTitle, IonModal, IonAvatar, IonText, IonCol, IonRow, IonGrid, IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonButton, RouterModule, IonContent, IonSelect, IonSelectOption, IonHeader, IonToolbar, CommonModule, FormsModule, FooterComponent]
+  imports: [IonSpinner, IonItem, IonButtons, IonTitle, IonModal, IonAvatar, IonText, IonCol, IonRow, IonGrid, IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonButton, RouterModule, IonContent, IonSelect, IonSelectOption, IonHeader, IonToolbar, CommonModule, FormsModule, FooterComponent]
 })
 export class ClassPage implements OnInit {
 
-
   ft_get_courses_item(item: any) {
-    console.log(item, "soy item")
+    // console.log(item, "soy item")
 
     this.dataUser.arr_student_courses = item
   }
@@ -29,29 +28,30 @@ export class ClassPage implements OnInit {
     this.router.navigate(['/product']);
   }
 
-  setOpen(isOpen: boolean) {
-    this.isModalOpen = isOpen;
+  setOpen() {
+    this.isModalOpen = !this.isModalOpen
   }
 
   ft_loadStudent() {
-    console.clear()
-    let last = this.dataUser.arr_students.length - 1
+    // console.clear()
 
     for (const item of this.dataUser.arr_students) {
       if (item.name == this.dataUser.sl_students) {
-        console.log(item.invoices)
+        // console.log(item)
         this.dataUser.sl_students = item.name
         this.dataUser.id_students = item.id
         this.dataUser.avatar_image = item.image
         // this.dataUser.arr_student_courses = item.arr_student_courses
         // console.log(this.dataUser.arr_student_courses)
-
         // console.log(item, "soy arrEstudiante")
       }
     }
 
     if (this.dataUser.sl_students == '') {
-      console.log(this.dataUser.arr_students[last].invoices)
+      let last = this.dataUser.arr_students.length - 1
+      // console.log(this.dataUser.arr_students)
+
+      // console.log(this.dataUser.arr_students)
       this.dataUser.sl_students = this.dataUser.arr_students[last].name
       this.dataUser.id_students = this.dataUser.arr_students[last].id
       this.dataUser.avatar_image = this.dataUser.arr_students[last].image
@@ -62,10 +62,10 @@ export class ClassPage implements OnInit {
     this.ft_get_courses()
   }
 
-  ft_get_courses() {
+  async ft_get_courses() {
     const urlCourses: string = `https://kabaygroup.com/api/school/student/${this.dataUser.id_students}/courses`
 
-    fetch(urlCourses, {
+    await fetch(urlCourses, {
       method: 'GET',
       headers: {
         'Authorization': ` Bearer ${this.dataUser.token_user}`,
@@ -75,34 +75,54 @@ export class ClassPage implements OnInit {
       .then(response => response.json())
       .then(res => {
         // console.log(res.data)
-        console.log(res.data.courses)
+        // console.log(res.data.courses)
         this.dataUser.arr_courses = res.data.courses
       })
       .catch(error => console.error('Error:', error));
   }
 
-  ft_addCourse(idCourse: number) {
+  async ft_addCourse(idCourse: number) {
 
     this.dataUser.id_coursers = idCourse
-    console.log(idCourse)
-    console.log(this.dataUser.arr_courses)
+    // console.log(idCourse)
+    // console.log(this.dataUser.arr_courses)
 
     const urlCourseID = `https://kabaygroup.com/api/school/course/${idCourse}/subscribe`
 
-    // for (const item of this.dataUser.arr_courses) {
-    //   if (item.id == idCourse) {
-    //     console.log("si son igusles")
+    // this.dataUser.arr_students
+    // comparar con 
+    // this.dataUser.arr_courses
+    // si el array de los estudiantes tiene un id y un aprovado
+    // pero el id es exactamente que el id del curso 
+    // mostrar en pantalla de clases productos y horarios
+    // por medio de una funcion que veryfique
 
-    //     this.ft_verify_id(idCourse)
-    //   }
-    // }
+    await fetch(urlCourseID, {
+      method: 'POST',
+      headers: {
+        'Authorization': ` Bearer ${this.dataUser.token_user}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "params": {
+          "student_id": this.dataUser.id_students
+        }
+      })
+    })
+      .then(response => response.json())
+      .then(res => {
+        // console.log(res.result)
+        this.ft_get_courses()
+        this.ft_father_info()
+      })
+      .catch(error => console.error('Error:', error));
 
   }
 
-  ft_father_info() {
+  async ft_father_info() {
     let urlFather_info: string = ` https://kabaygroup.com/api/school/parent/${this.dataUser.id_partner}/info`
 
-    fetch(urlFather_info, {
+    await fetch(urlFather_info, {
       method: 'GET',
       headers: {
         'Authorization': ` Bearer ${this.dataUser.token_user}`,
@@ -111,20 +131,35 @@ export class ClassPage implements OnInit {
     })
       .then(response => response.json())
       .then(res => {
-        console.log(res)
         this.dataUser.arr_students = res.data.students
-        console.log(this.dataUser.arr_students)
+        // console.log(this.dataUser.arr_students)
       })
       .catch(error => console.error('Error:', error));
   }
 
+  onBackButtonPressed() {
+    // Lógica personalizada cuando se presiona el botón atrás
+    this.isModalOpen = false
+  }
+
   constructor(
+    private platform: Platform,
     public dataUser: DataUserService,
     private router: Router
-  ) { }
+  ) {
+    this.platform.backButton.subscribeWithPriority(10, () => {
+      // console.log('Botón atrás presionado');
+      // Aquí puedes manejar la acción personalizada
+      this.onBackButtonPressed();
+    });
+  }
 
   ngOnInit() {
     this.ft_loadStudent()
+    console.log(
+      this.dataUser.arr_students,
+      this.dataUser.arr_courses
+    )
   }
 
 }

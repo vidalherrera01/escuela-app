@@ -63,6 +63,10 @@ export class LoginPage implements OnInit {
   n_phone: string = "";
 
   ft_signup() {
+    if (this.n_email.trim() == "" || this.n_password.trim() == "" || this.n_phone.trim() == "" || this.n_name.trim() == "") {
+      return alert("Hay Campos Vacios, Favor Llenar")
+    }
+
     let urlSignUp: string = "https://kabaygroup.com/api/signup"
 
     fetch(urlSignUp, {
@@ -76,7 +80,7 @@ export class LoginPage implements OnInit {
           "company_id": 9,
           "password": this.n_password,
           "name": this.n_name,
-          "mobile": "8095996896",
+          "mobile": "000-000-0000",
           "phone": this.n_phone
         }
       })
@@ -84,6 +88,8 @@ export class LoginPage implements OnInit {
       .then(response => response.json())
       .then(data => {
         if (data.result !== null) {
+          this.email = this.n_email
+          this.password = this.n_password
           this.ft_login()
         } else {
           alert("Este usuario esta en uso, favor cambiarlo")
@@ -123,7 +129,7 @@ export class LoginPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.email = "papa1"
+    // this.email = "papa5"
     // this.password = "123"
     // this.ft_login()
   }

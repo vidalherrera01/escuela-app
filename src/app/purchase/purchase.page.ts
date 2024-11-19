@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonItem, IonList, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonGrid, IonCol, IonRow, IonModal, IonButtons, IonImg, IonLabel } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonItem, IonList, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonGrid, IonCol, IonRow, IonModal, IonButtons, IonImg, IonLabel, IonText } from '@ionic/angular/standalone';
 import { Router, RouterModule } from '@angular/router';
 import { FooterComponent } from "../components/footer/footer.component";
 import { DataUserService } from '../services/data-user.service';
@@ -12,7 +12,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
   templateUrl: './purchase.page.html',
   styleUrls: ['./purchase.page.scss'],
   standalone: true,
-  imports: [IonLabel, IonImg, IonButtons, IonModal, IonRow, IonCol, IonGrid, IonCardContent, IonCardSubtitle, IonCardTitle, IonCardHeader, IonCard, IonList, IonButton, RouterModule, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, FooterComponent]
+  imports: [IonText, IonLabel, IonItem, IonImg, IonButtons, IonModal, IonRow, IonCol, IonGrid, IonCardContent, IonCardSubtitle, IonCardTitle, IonCardHeader, IonCard, IonList, IonButton, RouterModule, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, FooterComponent]
 })
 
 export class PurchasePage implements OnInit {
@@ -173,6 +173,7 @@ export class PurchasePage implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.clear()
     console.log(this.dataUser.arr_students)
     this.ft_save_idVoucher()
   }

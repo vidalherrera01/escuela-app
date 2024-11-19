@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonSelectOption, IonButton, IonSelect, IonGrid, IonCol, IonRow, IonLabel, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonCard, IonHeader, IonToolbar, IonTitle, IonAvatar } from '@ionic/angular/standalone';
+import { IonContent, IonButton, IonGrid, IonCol, IonRow, IonLabel, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonCard, IonHeader, IonToolbar, IonTitle, IonAvatar, IonAlert } from '@ionic/angular/standalone';
 import { DataUserService } from '../services/data-user.service';
 import { Router, RouterModule } from '@angular/router';
 import { FooterComponent } from "../components/footer/footer.component";
@@ -11,9 +11,34 @@ import { FooterComponent } from "../components/footer/footer.component";
   templateUrl: './product.page.html',
   styleUrls: ['./product.page.scss'],
   standalone: true,
-  imports: [IonAvatar, IonToolbar, IonHeader, IonCard, IonCardContent, IonCardSubtitle, IonCardTitle, IonCardHeader, IonLabel, IonRow, IonCol, IonGrid, IonButton, RouterModule, IonContent, IonSelect, IonSelectOption, CommonModule, FormsModule, FooterComponent]
+  imports: [IonAlert, IonAvatar, IonTitle, IonToolbar, IonHeader, IonCard, IonCardContent, IonCardSubtitle, IonCardTitle, IonCardHeader, IonLabel, IonRow, IonCol, IonGrid, IonButton, RouterModule, IonContent, CommonModule, FormsModule, FooterComponent]
 })
 export class ProductPage implements OnInit {
+
+  setResult(ev: any) {
+    console.log(`Dismissed with role: ${ev.detail.role}`);
+  }
+
+  public alertButtons(id: number) {
+    return [{
+      text: 'Cancel',
+      role: 'cancel',
+      handler: () => {
+        console.log('Alert canceled');
+      },
+    },
+    {
+      text: 'OK',
+      role: 'confirm',
+      handler: () => {
+        console.log('confirmado', id)
+        this.ft_addProduct(id)
+        console.log('agregado al carrito')
+      },
+    }
+    ]
+  }
+
 
   ft_loadStudent() {
     let last = this.dataUser.arr_students.length - 1
@@ -97,7 +122,7 @@ export class ProductPage implements OnInit {
       .then(data => {
         // arr unique
         this.ft_father_info()
-        console.log(data.result)
+        console.log(data.result, " unique")
       })
       .catch(error => console.error('Error:', error));
   }
@@ -114,7 +139,7 @@ export class ProductPage implements OnInit {
     })
       .then(response => response.json())
       .then(res => {
-        console.log(res)
+        console.log(res.data)
         this.dataUser.arr_students = res.data.students
         console.log(this.dataUser.arr_students)
       })
