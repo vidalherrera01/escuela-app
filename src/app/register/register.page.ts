@@ -22,25 +22,43 @@ export class RegisterPage implements OnInit {
   father: string = ""
   tel: string = ""
   phone: string = ""
-  profile: File | undefined;
-  profilePhoto: string | undefined;
-  signature: File | undefined;
-  signaturePhoto: string | undefined;
-  sl_name_student: string = ""
   allergies_or_illness: string = ""
-
 
   date_day: any;
   date_month: any;
   date_year: any;
 
+  profile: File | undefined;
+  profilePhoto: string | undefined;
+  signature: File | undefined;
+  signaturePhoto: string | undefined;
+  sl_name_student: string = ""
+
+
+  async ft_get_courses() {
+    const urlCourses: string = `https://kabaygroup.com/api/school/student/${this.dataUser.id_students}/courses`
+
+    await fetch(urlCourses, {
+      method: 'GET',
+      headers: {
+        'Authorization': ` Bearer ${this.dataUser.token_user}`,
+        'Content-Type': 'application/json',
+      }
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.dataUser.arr_courses = res.data.courses
+      })
+      .catch(error => console.error('Error:', error));
+  }
+
 
   async ft_photo_profile() {
     const image = await Camera.getPhoto({
       quality: 90,
-      allowEditing: false,
+      allowEditing: true,
       resultType: CameraResultType.DataUrl,
-      source: CameraSource.Camera
+      source: CameraSource.Photos
     });
 
     this.profilePhoto = image.dataUrl
@@ -52,9 +70,9 @@ export class RegisterPage implements OnInit {
   async ft_photo_signature() {
     const image = await Camera.getPhoto({
       quality: 90,
-      allowEditing: false,
+      allowEditing: true,
       resultType: CameraResultType.DataUrl,
-      source: CameraSource.Camera
+      source: CameraSource.Photos
     });
 
     this.signaturePhoto = image.dataUrl
@@ -64,10 +82,28 @@ export class RegisterPage implements OnInit {
   }
 
   async ft_register() {
-    if (
-      this.name_student.trim() == ""
-    ) {
-      return alert("Hay campos vacios, favor llenar")
+
+    let obj_veryfy_empty: object = {
+      nombre: this.name_student,
+      madre: this.mother,
+      padre: this.father,
+      telefono: this.tel,
+      celular: this.phone,
+    }
+
+    console.log(this.date_day,
+      this.date_year)
+
+    for (const [key, value] of Object.entries(obj_veryfy_empty)) {
+      if (value == "") {
+        alert(`el campo *** ${key} *** esta vacio `)
+        return
+      }
+    }
+
+    if (this.date_month == undefined || this.date_day == undefined || this.date_year == undefined) {
+      alert("El campo ** Fecha** esta incompleto")
+      return
     }
 
     let urlRegister: string = `https://kabaygroup.com/api/school/parent/${this.dataUser.id_partner}/student`
@@ -112,6 +148,7 @@ export class RegisterPage implements OnInit {
         // console.log(res.data.student, "desde resgister")
 
         if (res.data.student !== null) {
+          this.ft_get_courses()
           this.ft_father_info()
         }
       })

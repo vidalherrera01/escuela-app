@@ -133,6 +133,4 @@ export class LoginPage implements OnInit {
     // this.password = "123"
     // this.ft_login()
   }
-
-
 }

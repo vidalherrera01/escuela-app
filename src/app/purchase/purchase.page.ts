@@ -33,9 +33,9 @@ export class PurchasePage implements OnInit {
     console.log(arr)
     const image = await Camera.getPhoto({
       quality: 90,
-      allowEditing: false,
+      allowEditing: true,
       resultType: CameraResultType.DataUrl,
-      source: CameraSource.Camera
+      source: CameraSource.Photos
     });
 
     this.profilePhoto = image.dataUrl
