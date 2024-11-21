@@ -64,7 +64,8 @@ export class LoginPage implements OnInit {
 
   ft_signup() {
     if (this.n_email.trim() == "" || this.n_password.trim() == "" || this.n_phone.trim() == "" || this.n_name.trim() == "") {
-      return alert("Hay Campos Vacios, Favor Llenar")
+      alert("Hay Campos Vacios, Favor Llenar")
+      return
     }
 
     let urlSignUp: string = "https://kabaygroup.com/api/signup"
