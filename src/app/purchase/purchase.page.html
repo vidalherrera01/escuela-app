@@ -26,41 +26,42 @@
           </ion-row>
 
           <ion-row *ngFor="let student_courses of item.student_courses; let i = index">
+            <ion-col size="12">
+              <ion-text>
+                <strong>{{student_courses.name}}</strong>
+              </ion-text>
+            </ion-col>
             <ion-col size="6">
-              <ion-item>
-                <div *ngIf="student_courses.state == 'Aprobado'">
-                  <ion-list>
-                    <ion-text>
-                      <strong>{{student_courses.name}}</strong>
-                    </ion-text>
+              <div *ngIf="student_courses.state == 'Aprobado'">
+                <ion-list>
+                  <ion-item *ngFor="let invoices of student_courses.invoices; let i = index">
+                    <div *ngIf="invoices.payment_reference == 'Pago de Inscripcion'">
+                      <ion-label> {{invoices.payment_reference}}
+                        <ion-text color="danger"> RD${{student_courses.inscription_product.list_price}}</ion-text>
+                      </ion-label>
+                    </div>
 
-                    <ion-item *ngFor="let invoices of student_courses.invoices; let i = index">
-                      <div *ngIf="invoices.payment_reference == 'Pago de Inscripcion'">
-                        <ion-label> {{invoices.payment_reference}}
-                          <ion-text color="danger"> RD${{student_courses.inscription_product.list_price}}</ion-text>
-                        </ion-label>
-                      </div>
-                      <div *ngIf="invoices.payment_reference == 'Pago de Mensualidad'">
-                        <ion-label> {{invoices.payment_reference}}
-                          <ion-text color="danger"> RD${{student_courses.monthly_product.list_price}}</ion-text>
-                        </ion-label>
-                      </div>
-                    </ion-item>
-                  </ion-list>
-                </div>
-              </ion-item>
+                    <div *ngIf="invoices.payment_reference == 'Pago de Mensualidad'">
+                      <ion-label> {{invoices.payment_reference}}
+                        <ion-text color="danger"> RD${{student_courses.monthly_product.list_price}}</ion-text>
+                      </ion-label>
+                    </div>
+                  </ion-item>
+
+                </ion-list>
+              </div>
             </ion-col>
 
             <ion-col size="6">
               <ion-item *ngFor="let invoices of student_courses.invoices; let i = index" lines="none">
-                <ion-button fill="clear" (click)="ft_photoVouchers(invoices.id, invoices)"> <img width="50" height="50"
+                <ion-button fill="clear" (click)="ft_photoVouchers(invoices.id, invoices)"> <img width="30" height="30"
                     src="https://cdn-icons-png.freepik.com/256/10068/10068678.png?ga=GA1.1.1686072600.1729371214&semt=ais_hybrid"
                     alt=""> </ion-button>
-                <ion-button fill="clear" (click)="ft_seeVoucher(invoices.id)"> <img width="50" height="50"
+                <ion-button fill="clear" (click)="ft_seeVoucher(invoices.id)"> <img width="30" height="30"
                     src="https://cdn-icons-png.freepik.com/256/10977/10977572.png?ga=GA1.1.1686072600.1729371214&semt=ais_hybrid"
                     alt=""> </ion-button>
                 <ion-button [href]="invoices.download_url" [download]="invoices.download_url" fill="clear"> <img
-                    width="50" height="50"
+                    width="30" height="30"
                     src="https://cdn-icons-png.freepik.com/256/10065/10065777.png?ga=GA1.1.1686072600.1729371214&semt=ais_hybrid"
                     alt=""> </ion-button>
               </ion-item>
@@ -91,14 +92,14 @@
 
             <ion-col size="6">
               <ion-item *ngFor="let invoices of products.invoices; let i = index" lines="none">
-                <ion-button fill="clear" (click)="ft_photoVouchers(invoices.id, invoices)"> <img width="50" height="50"
+                <ion-button fill="clear" (click)="ft_photoVouchers(invoices.id, invoices)"> <img width="30" height="30"
                     src="https://cdn-icons-png.freepik.com/256/10068/10068678.png?ga=GA1.1.1686072600.1729371214&semt=ais_hybrid"
                     alt=""> </ion-button>
-                <ion-button fill="clear" (click)="ft_seeVoucher(invoices.id)"> <img width="50" height="50"
+                <ion-button fill="clear" (click)="ft_seeVoucher(invoices.id)"> <img width="30" height="30"
                     src="https://cdn-icons-png.freepik.com/256/10977/10977572.png?ga=GA1.1.1686072600.1729371214&semt=ais_hybrid"
                     alt=""> </ion-button>
                 <ion-button [href]="invoices.download_url" [download]="invoices.download_url" fill="clear"> <img
-                    width="50" height="50"
+                    width="30" height="30"
                     src="https://cdn-icons-png.freepik.com/256/10065/10065777.png?ga=GA1.1.1686072600.1729371214&semt=ais_hybrid"
                     alt=""> </ion-button>
               </ion-item>

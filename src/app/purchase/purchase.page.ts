@@ -33,7 +33,7 @@ export class PurchasePage implements OnInit {
     console.log(arr)
     const image = await Camera.getPhoto({
       quality: 90,
-      allowEditing: true,
+      allowEditing: false,
       resultType: CameraResultType.DataUrl,
       source: CameraSource.Photos
     });
@@ -54,6 +54,7 @@ export class PurchasePage implements OnInit {
       this.ft_addVouchers(id_voucher)
     }
 
+    alert('foto enviada')
     this.profile = undefined
   }
 
@@ -145,6 +146,7 @@ export class PurchasePage implements OnInit {
       .then(response => response.json())
       .then(data => {
         // arr unique
+        console.log(data)
         this.url_invoices = url
 
         if (data.data.attachments.length != 0) {

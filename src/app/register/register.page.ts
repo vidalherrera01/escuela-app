@@ -56,7 +56,7 @@ export class RegisterPage implements OnInit {
   async ft_photo_profile() {
     const image = await Camera.getPhoto({
       quality: 90,
-      allowEditing: true,
+      allowEditing: false,
       resultType: CameraResultType.DataUrl,
       source: CameraSource.Photos
     });
@@ -70,7 +70,7 @@ export class RegisterPage implements OnInit {
   async ft_photo_signature() {
     const image = await Camera.getPhoto({
       quality: 90,
-      allowEditing: true,
+      allowEditing: false,
       resultType: CameraResultType.DataUrl,
       source: CameraSource.Photos
     });
