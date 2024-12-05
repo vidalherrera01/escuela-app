@@ -58,7 +58,7 @@ export class RegisterPage implements OnInit {
       quality: 90,
       allowEditing: false,
       resultType: CameraResultType.DataUrl,
-      source: CameraSource.Photos
+      source: CameraSource.Prompt
     });
 
     this.profilePhoto = image.dataUrl
@@ -72,7 +72,7 @@ export class RegisterPage implements OnInit {
       quality: 90,
       allowEditing: false,
       resultType: CameraResultType.DataUrl,
-      source: CameraSource.Photos
+      source: CameraSource.Prompt
     });
 
     this.signaturePhoto = image.dataUrl
@@ -82,6 +82,11 @@ export class RegisterPage implements OnInit {
   }
 
   async ft_register() {
+    if (this.dataUser.id_partner == "" || this.dataUser.id_partner == undefined) {
+      this.router.navigate(['/login']);
+      alert("se perdio la coneccion a internet")
+      return
+    }
 
     let obj_veryfy_empty: object = {
       nombre: this.name_student,
@@ -91,14 +96,18 @@ export class RegisterPage implements OnInit {
       celular: this.phone,
     }
 
-    console.log(this.date_day,
-      this.date_year)
+    console.log(this.date_day, this.date_month, this.date_year)
 
     for (const [key, value] of Object.entries(obj_veryfy_empty)) {
       if (value == "") {
-        alert(`el campo *** ${key} *** esta vacio `)
+        alert(`el campo *** ${key} *** esta vacio`)
         return
       }
+    }
+
+    if (this.date_month == "" || this.date_day == "" || this.date_year == "") {
+      alert("El campo ** Fecha** esta incompleto")
+      return
     }
 
     if (this.date_month == undefined || this.date_day == undefined || this.date_year == undefined) {
@@ -131,9 +140,6 @@ export class RegisterPage implements OnInit {
     formData.append('mother_name', this.father);
     formData.append('allergies_or_illness', this.allergies_or_illness);
     formData.append('birth_date_timestamp', birth_date);
-
-
-    // console.log(formData, 'formdata')
 
     await fetch(urlRegister, {
       method: 'POST',
@@ -170,11 +176,8 @@ export class RegisterPage implements OnInit {
       }
     );
     const data = await response.json();
-    // console.log(data.data.students)
     this.dataUser.arr_students = data.data.students
-    console.log(this.dataUser.arr_students, "mis estudiantes")
     let last: number = this.dataUser.arr_students.length - 1
-    console.log(last)
     this.dataUser.sl_students = this.dataUser.arr_students[last].name
 
     this.name_student = ""
@@ -200,7 +203,8 @@ export class RegisterPage implements OnInit {
 
   ngOnInit() {
     // this.ft_father_info()
+    if (this.dataUser.id_partner == "" || this.dataUser.id_partner == undefined) {
+      this.router.navigate(['/login']);
+    }
   }
-
-
 }

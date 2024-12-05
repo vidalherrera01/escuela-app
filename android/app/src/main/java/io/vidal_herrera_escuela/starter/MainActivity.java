@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package io.vidal_herrera_escuela.starter;
 
 import com.getcapacitor.BridgeActivity;
 

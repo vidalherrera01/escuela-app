@@ -35,7 +35,7 @@ export class PurchasePage implements OnInit {
       quality: 90,
       allowEditing: false,
       resultType: CameraResultType.DataUrl,
-      source: CameraSource.Photos
+      source: CameraSource.Prompt
     });
 
     this.profilePhoto = image.dataUrl
